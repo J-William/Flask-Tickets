@@ -1,5 +1,5 @@
 import oracledb
-
+import os
 import click
 from flask import g
 from flask.cli import with_appcontext
@@ -14,9 +14,9 @@ class Dbcm(object):
 
     def __init__(self) -> None:
         self.pool = oracledb.create_pool( 
-            user="DEV1", 
-            password='123', 
-            dsn="localhost:1521/XEPDB1", 
+            user= os.environ.get('DATABASE_USER'),
+            password= os.environ.get('DATABASE_PASSWORD'),
+            dsn= os.environ.get('DATABASE_DSN'),
             min=1, 
             max=2, 
             increment=1
@@ -65,7 +65,8 @@ class Dbcm(object):
 
 
 # Global instance of the DBCM
-DBCM = Dbcm()
+DBCM = Dbcm()   
+
 
 
 def parse_script(filepath):
@@ -140,4 +141,5 @@ def init_app(app):
     # Adds a new command that can be called with the flask command
     app.cli.add_command(init_db_command)
     app.cli.add_command(load_sample_data_command)
+
 

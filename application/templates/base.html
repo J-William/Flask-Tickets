@@ -8,7 +8,7 @@
         <ul class="navbar-nav">
             <li class="nav-item px-2"><span><h5>Simple Automation Server</h5></span></li>
             {% if g.user %}
-            <li class="nav-item px-3"><span><a href="/jobs">Jobs</a></span></li>
+            <li class="nav-item px-3"><span><a href="/ticket">Tickets</a></span></li>
             {% if g.user['ROLE'] == 'ADMIN' %}
             <li class="nav-item px-3"><span><a href="/admin/users">Users</a></span></li>
             {% endif %}

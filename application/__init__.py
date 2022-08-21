@@ -33,7 +33,8 @@ def create_app(test_config=None):
     app.register_blueprint(index.bp)
     from . import admin
     app.register_blueprint(admin.bp)
-    
+    from . import ticket
+    app.register_blueprint(ticket.bp)
     
     
     return app
