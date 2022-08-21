@@ -82,7 +82,7 @@ def admin_required(view):
     """ Decorator that requires admin users for views that it wraps."""
     @functools.wraps(view)
     def wrapped_view(**kwargs):
-        if g.user['AUTH_LEVEL'] != 'ADMIN':
+        if g.user['ROLE'] != 'ADMIN':
             return redirect(url_for('auth.login'))
 
         return view(**kwargs)
