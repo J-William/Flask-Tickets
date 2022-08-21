@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h3>{% block title %}Users{% endblock %}</h3>
+  <span><a href="/admin/user/create">Create User</a></span>  
+{% endblock %}
+
+{% block content %}
+<div class="col-sm-8">
+    <table class="table table-striped">
+        <thead>
+            <th scope="col">User ID</th>
+            <th scope="col">Username</th>
+            <th scope="col">Auth Level</th>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{user['USER_ID']}}</td>
+                    <td>{{user['USERNAME']}}</td>
+                    <td>{{user['AUTH_LEVEL']}}</td>
+                    <td><a href="/admin/user/{{user['USER_ID']}}">Edit</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="col-sm-4"></div>
+{% endblock %}

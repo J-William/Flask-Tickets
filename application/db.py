@@ -47,11 +47,14 @@ class Dbcm(object):
         except NameError:
             pass
 
-    def get_result(self, query, params):
+    def get_result(self, query, params = None):
         """ Return a cursor with the results of a query already formatted with a row factory."""
         conn = self.get_conn()
         cur = conn.cursor()
-        cur.execute(query, params)
+        if params:
+            cur.execute(query, params)
+        else:
+            cur.execute(query)
         self.row_factory(cur)
         return cur
 
