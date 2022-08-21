@@ -20,10 +20,10 @@
           <input type="password" class="form-control" id="password" name="password">
       </div>
       <div class="mb-3">
-          <label for="auth_level" class="form-label">Auth Level</label>
-          <input type="text" class="form-control" id="auth_level" name="auth_level" {% if user.AUTH_LEVEL %} value="{{user['AUTH_LEVEL']}}" {% endif %}>
+          <label for="role" class="form-label">Auth Level</label>
+          <input type="text" class="form-control" id="rolel" name="role" {% if user.ROLE %} value="{{user['ROLE']}}" {% endif %}>
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary">Update</button>
     </form>
     </div>
   <div class="col-sm-8"></div>

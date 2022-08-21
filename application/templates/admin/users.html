@@ -11,14 +11,14 @@
         <thead>
             <th scope="col">User ID</th>
             <th scope="col">Username</th>
-            <th scope="col">Auth Level</th>
+            <th scope="col">Role</th>
         </thead>
         <tbody>
             {% for user in users %}
                 <tr>
                     <td>{{user['USER_ID']}}</td>
                     <td>{{user['USERNAME']}}</td>
-                    <td>{{user['AUTH_LEVEL']}}</td>
+                    <td>{{user['ROLE']}}</td>
                     <td><a href="/admin/user/{{user['USER_ID']}}">Edit</a></td>
                 </tr>
             {% endfor %}

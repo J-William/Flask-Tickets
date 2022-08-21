@@ -68,25 +68,58 @@ class Dbcm(object):
 DBCM = Dbcm()
 
 
+def parse_script(filepath):
+    """ Parse a sql script into a list of commands."""
+    f = open(filepath)
+    script = f.read()
+    f.close()
+    script = script.replace('\n', '')
+    script = script.strip()
+    return script.split(';')
+
+
 ##### Initialization
 def init_db():
     """ First time initialization of the db."""
-    db = DBCM.get_conn()
-    cur = db.cursor()
     
     # Create the default admin
     from werkzeug.security import generate_password_hash
 
+    conn = DBCM.get_conn()
+    cur = conn.cursor()
+    commands = parse_script('dm/schema.sql')
+
+    for command in commands:
+        if command:
+            cur.execute(command)
+
     cur.execute(
-        "INSERT INTO app_user ( user_id, username, password, auth_level) VALUES (:1, :2, :3, :4)",
-        [1, 'admin', generate_password_hash('admin') , 'ADMIN']
-        )
-    
-    db.commit()
+        'INSERT INTO app_user ( username, password, role ) VALUES (:1, :2, :3)',
+        ['admin', generate_password_hash('admin'), 'ADMIN']
+    )
+
+    conn.commit()
     cur.close()
     DBCM.close_conn()
     DBCM.shutdown()
 
+def load_sample_data():
+    conn = DBCM.get_conn()
+    cur = conn.cursor()
+
+    from werkzeug.security import generate_password_hash
+    commands = parse_script('dm/sample.sql')
+    
+    for command in commands:
+        if command:
+            cur.execute(command)
+    
+    cur.close()
+    conn.commit()
+    DBCM.close_conn()
+    DBCM.shutdown()
+    
+    
 
 @click.command('init-db')           
 @with_appcontext
@@ -95,10 +128,16 @@ def init_db_command():
     init_db()
     click.echo('Initialized the database.')
 
+@click.command('load-sample-data')
+@with_appcontext
+def load_sample_data_command():
+    load_sample_data()
+    click.echo('Loaded sample data.')
+
 def init_app(app):
     # Tells Flask to call this function when ending a response
     app.teardown_appcontext(DBCM.close_conn)
     # Adds a new command that can be called with the flask command
     app.cli.add_command(init_db_command)
-
+    app.cli.add_command(load_sample_data_command)
 
