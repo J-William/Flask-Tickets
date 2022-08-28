@@ -6,7 +6,7 @@ from flask.cli import with_appcontext
 
 
 class Dbcm(object):
-    """ Database Connection Manager. """
+    """ Singleton Database Connection Manager. """
     def __new__(cls):
         if not hasattr(cls, 'instance'):
             cls.instance = super(Dbcm, cls).__new__(cls)
@@ -47,6 +47,11 @@ class Dbcm(object):
         except NameError:
             pass
 
+    def row_factory(self, cursor):
+        """ Setup the row factory for a cursor."""
+        columns = [col[0] for col in cursor.description]
+        cursor.rowfactory = lambda *args: dict(zip(columns, args))
+
     def get_result(self, query, params = None):
         """ Return a cursor with the results of a query already formatted with a row factory."""
         conn = self.get_conn()
@@ -58,16 +63,15 @@ class Dbcm(object):
         self.row_factory(cur)
         return cur
 
-    def row_factory(self, cursor):
-        """ Setup the row factory for a cursor."""
-        columns = [col[0] for col in cursor.description]
-        cursor.rowfactory = lambda *args: dict(zip(columns, args))
+
 
 
 # Global instance of the DBCM
 DBCM = Dbcm()   
 
 
+
+########################### Initialization ####################################
 
 def parse_script(filepath):
     """ Parse a sql script into a list of commands."""
@@ -79,10 +83,8 @@ def parse_script(filepath):
     return script.split(';')
 
 
-##### Initialization
 def init_db():
     """ First time initialization of the db."""
-    
     # Create the default admin
     from werkzeug.security import generate_password_hash
 
