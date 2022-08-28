@@ -2,20 +2,40 @@
 from flask import(
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
-from application.auth import login_required
+from application.auth import login_required, tech_required
 from application.db import DBCM
-from application.forms import TicketForm
+from application.forms import TicketSubmissionForm, TicketForm
 
 bp = Blueprint('ticket', __name__, url_prefix='/ticket')
 
-@bp.route('/')
-def get_tickets():
-    return 'Coming Soon'
+@bp.route('/<int:ticket_id>', methods=('GET', 'POST'))
+def get_tickets(ticket_id):
+    form = TicketForm()
+    res = DBCM.get_result(
+        """
+            SELECT subject, description, created_at, started_at, finished_at, notes,
+                (SELECT username FROM app_user WHERE user_id = assigned_to) assigned_to,
+                (SELECT username FROM app_user WHERE user_id = submitted_by) submitted_by
+            FROM ticket WHERE ticket_id = :1
+        """,
+        [ticket_id]
+        ).fetchone()
+
+    form.ticket_id.data = ticket_id
+    form.subject.data = res['SUBJECT']
+    form.submitted_by.data = res['SUBMITTED_BY']
+    form.description.data = res['DESCRIPTION']
+    form.created_at.data = res['CREATED_AT']
+    form.started_at.data = res['STARTED_AT']
+    form.finished_at.data = res['FINISHED_AT']
+    form.notes.data = res['NOTES']
+
+    return render_template('ticket/ticket.html', form=form, message=None)
 
 @login_required
 @bp.route('/submit', methods=('GET', 'POST'))
 def submit_ticket():
-    form = TicketForm()
+    form = TicketSubmissionForm()
     message = None
     if form.validate_on_submit():
         subject = form.subject.data
@@ -34,3 +54,13 @@ def submit_ticket():
         cur.close()
         message = "Thanks for your ticket we're on it."
     return render_template('ticket/submit.html', form=form, message=message)
+
+
+@tech_required
+@bp.route('/dashboard')
+def ticket_dashboard():
+    """ Return the dashboard view."""
+    res = DBCM.get_result("SELECT * FROM ticket").fetchmany()
+    return render_template('ticket/dashboard.html', data = res)
+
+    

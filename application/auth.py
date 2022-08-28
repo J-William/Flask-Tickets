@@ -78,6 +78,15 @@ def login_required(view):
         return view(**kwargs)
     return wrapped_view
 
+def tech_required(view):
+    """ Decorator that requires tech or admin user for views that it wraps."""
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user['ROLE'] in ['ADMIN', 'TECH']:
+            return redirect(url_for('auth.login'))
+        return view(**kwargs)
+    return wrapped_view
+    
 def admin_required(view):
     """ Decorator that requires admin users for views that it wraps."""
     @functools.wraps(view)

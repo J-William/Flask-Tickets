@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="col-sm-8">
+    <table class="table table-striped">
+        <thead>
+            <th scope="col">Ticket ID</th>
+            <th scope="col">Assigned To</th>
+            <th scope="col">Submitted By</th>
+            <th scope="col">Subject</th>
+            <th scope="col">Description</th>
+            <th scope="col">Created</th>
+            <th scope="col">Started</th>
+            <th scope="col">Finished</th>
+        </thead>
+        <tbody>
+            {% for row in data %}
+                <tr>
+                    <td>{{row['TICKET_ID']}}</td>
+                    <td>{{row['ASSIGNED_TO']}}</td>
+                    <td>{{row['SUBMITTED_BY']}}</td>
+                    <td>{{row['SUBJECT']}}</td>
+                    <td>{{row['DESCRIPTION']}}</td>
+                    <td>{{row['CREATED_AT']}}</td>
+                    <td>{{row['STARTED_AT']}}</td>
+                    <td>{{row['FINISHED_AT']}}</td>
+                    <td><a href="/ticket/{{row['TICKET_ID']}}">Edit</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="col-sm-4"></div>
+
+{% endblock %}

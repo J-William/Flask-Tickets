@@ -16,7 +16,7 @@
             <li class="nav-item p-2"><h5>Help Desk</h5></li>
             {% if g.user %}
             <li class="nav-item p-1"><a class="nav-link" href="/ticket/submit">Submit</a></li>
-            <li class="nav-item p-1"><a class="nav-link" href="/ticket">Tickets</a></li>
+            <li class="nav-item p-1"><a class="nav-link" href="/ticket/dashboard">Tickets</a></li>
             {% if g.user['ROLE'] == 'ADMIN' %}
             <li class="nav-item p-1"><a class="nav-link" href="/admin/users">Users</a></li>
             {% endif %}
