@@ -1,19 +1,24 @@
 {% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 
-{% block header %}
-  <h3>{% block title %}Submit a ticket{% endblock %}</h3>
-{% endblock %}
+
 
 {% block content %}
-    <div class="mb-3">
-        {{ form.subject.label }}
-        {{ form.subject(size=20) }}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
+      <h1 class="pt-5 pb-2">Submit a ticket.</h1>
+
+      <p class="lead">Someone will contact you at some point in the future, possibly.</p>
+    
+      {{ wtf.quick_form(form) }}
+
+      <p class="pt-5"><strong>{{ message if message }}</strong></p>
+
     </div>
-    <div class="mb-3">
-        {{ form.description.label }}
-        {{ form.description }}
-    </div>
+  </div>
+</div>
+
 {% endblock %}
-
-

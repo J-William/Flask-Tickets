@@ -1,12 +1,10 @@
 {% extends 'base.html' %}
 
-{% block header %}
-  <h3>{% block title %}Users{% endblock %}</h3>
-  <span><a href="/admin/user/create">Create User</a></span>  
-{% endblock %}
+
 
 {% block content %}
 <div class="col-sm-8">
+    <span><a href="/admin/user/create">Create New User</a></span> 
     <table class="table table-striped">
         <thead>
             <th scope="col">User ID</th>

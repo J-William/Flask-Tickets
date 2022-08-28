@@ -3,9 +3,9 @@ from wtforms import StringField, TextAreaField, SubmitField
 from wtforms.validators import DataRequired, Length, Email
 
 class TicketForm(FlaskForm):
-    """ The login form"""
+    """ The ticket form"""
     subject = StringField(
-        'Username',
+        'Subject',
         [DataRequired()]
     )
     description = TextAreaField(

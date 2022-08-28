@@ -1,13 +1,16 @@
 import os
-
 from flask import Flask
+from flask_bootstrap import Bootstrap
+
+
 
 def create_app(test_config=None):
     """ App factory."""
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        SECRET_KEY='dev',
+        SECRET_KEY='dev-4-hire',
     )
+
 
     if test_config is None:
         # Load the instance config if it exists, when not testing
@@ -22,10 +25,13 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+
     # Initialize the db
     from . import db
     db.init_app(app)
-    
+
+    Bootstrap(app)
+
     # Authorization blueprint
     from . import auth
     app.register_blueprint(auth.bp)

@@ -57,7 +57,7 @@ def create_user():
         conn = DBCM.get_conn()
         cur = conn.cursor()
         cur.execute(
-            'INSERT INTO app_user VALUES ( (SELECT max(user_id) + 1 FROM app_user), :1, :2, :3)',
+            'INSERT INTO app_user (username, password, role) VALUES (:1, :2, :3)',
             [user['USERNAME'], generate_password_hash(user['PASSWORD']), user['ROLE']]
         )
         conn.commit()
