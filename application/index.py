@@ -9,4 +9,4 @@ bp = Blueprint('index', __name__)
 @bp.route('/')
 @login_required
 def index():
-    return render_template('base.html')
+    return redirect(url_for('ticket.submit_ticket'))
