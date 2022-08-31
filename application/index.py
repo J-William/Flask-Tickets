@@ -7,6 +7,6 @@ from application.auth import login_required
 bp = Blueprint('index', __name__)
 
 @bp.route('/')
-@login_required
 def index():
+    flash('Welcome!')
     return render_template('base.html')

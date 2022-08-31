@@ -32,8 +32,9 @@ def get_tickets(ticket_id):
 
     return render_template('ticket/ticket.html', form=form, message=None)
 
-@login_required
+
 @bp.route('/submit', methods=('GET', 'POST'))
+@login_required
 def submit_ticket():
     form = TicketSubmissionForm()
     message = None
@@ -56,8 +57,8 @@ def submit_ticket():
     return render_template('ticket/submit.html', form=form, message=message)
 
 
-@tech_required
 @bp.route('/dashboard')
+@tech_required
 def ticket_dashboard():
     """ Return the dashboard view."""
     res = DBCM.get_result("SELECT * FROM ticket").fetchmany()
