@@ -1,36 +1,35 @@
 {% extends 'bootstrap/base.html' %}
 {% import "bootstrap/wtf.html" as wtf %}
 
+
 {% block styles %}
 {{ super() }}
 	<style>
 		body { background: #e8f1f9; }
 
-        a.help-nav-btn:link, a.help-nav-btn:visited {
-  color: white;
-  padding: 14px 25px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-}
+        a.app-nav-btn:link, a.app-nav-btn:visited {
+            color: white;
+            padding: 14px 25px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            }
 
-a.help-nav-btn:hover, a.help-nav-btn:active {
-  background-color: rgba(0, 255, 136, 0.425);
-}
-
+        a.app-nav-btn:hover, a.app-nav-btn:active {
+            background-color: rgba(0, 255, 136, 0.425);
+            }
 	</style>
 {% endblock %}
-
 {% block navbar %}
-<nav class="navbar navbar-expand-md navbar-light bg-primary text-dark mb-3">
-    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+<nav class="navbar navbar-expand-md bg-secondary mb-3">
+    <div class="w-100 order-1 order-md-0 dual-collapse2">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item p-2"><h4>Help Desk</h4></li>
             {% if g.user %}
-            <li class="nav-item p-1 w-20"><a class="help-nav-btn" href="/ticket/submit">Submit</a></li>
-            <li class="nav-item p-1 w-20"><a class="help-nav-btn" href="/ticket/dashboard">Tickets</a></li>
+            <li class="nav-item p-1 w-20"><a class="app-nav-btn" href="/ticket/submit">Submit</a></li>
+            <li class="nav-item p-1 w-20"><a class="app-nav-btn" href="/ticket/dashboard">Tickets</a></li>
             {% if g.user['ROLE'] == 'ADMIN' %}
-            <li class="nav-item p-1 w-20"><a class="help-nav-btn" href="/admin/users">Users</a></li>
+            <li class="nav-item p-1 w-20"><a class="app-nav-btn" href="/admin/users">Users</a></li>
             {% endif %}
             {% endif %}
         </ul>
@@ -40,9 +39,9 @@ a.help-nav-btn:hover, a.help-nav-btn:active {
         <ul class="navbar-nav ml-auto">
             {% if g.user %}
             <li class="nav-item p-1"><span class="align-bottom">{{ g.user['USERNAME'] }}</span></li>
-            <li class="nav-item p-1"><a class="help-nav-btn" href="{{ url_for('auth.logout') }}">Log Out</a></li>
+            <li class="nav-item p-1"><a class="app-nav-btn" href="{{ url_for('auth.logout') }}">Log Out</a></li>
             {% else %}
-            <li class="nav-item p-1"><a class="help-nav-btn" href="{{ url_for('auth.login') }}">Log In</a></li>
+            <li class="nav-item p-1"><a class="app-nav-btn" href="{{ url_for('auth.login') }}">Log In</a></li>
             {% endif %}
         </ul>
     </div>
@@ -70,6 +69,3 @@ a.help-nav-btn:hover, a.help-nav-btn:active {
     </div>
 </div>
 {% endblock %}
-
-
-
