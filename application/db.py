@@ -14,6 +14,7 @@ class Dbcm(object):
 
     def __init__(self) -> None:
         self.pool = oracledb.create_pool( 
+            
             user= os.environ.get('DATABASE_USER'),
             password= os.environ.get('DATABASE_PASSWORD'),
             dsn= os.environ.get('DATABASE_DSN'),
@@ -66,7 +67,7 @@ class Dbcm(object):
 
 
 
-# Global instance of the DBCM
+# # Global instance of the DBCM
 DBCM = Dbcm()   
 
 
@@ -87,7 +88,7 @@ def init_db():
     """ First time initialization of the db."""
     # Create the default admin
     from werkzeug.security import generate_password_hash
-
+    # from application import DBCM
     conn = DBCM.get_conn()
     cur = conn.cursor()
     commands = parse_script('dm/schema.sql')
@@ -107,6 +108,7 @@ def init_db():
     DBCM.shutdown()
 
 def load_sample_data():
+    # from application import DBCM
     conn = DBCM.get_conn()
     cur = conn.cursor()
 
@@ -138,6 +140,7 @@ def load_sample_data_command():
     click.echo('Loaded sample data.')
 
 def init_app(app):
+    # from application import DBCM
     # Tells Flask to call this function when ending a response
     app.teardown_appcontext(DBCM.close_conn)
     # Adds a new command that can be called with the flask command

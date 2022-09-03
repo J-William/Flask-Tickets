@@ -7,6 +7,7 @@ from werkzeug.security import generate_password_hash
 
 bp = Blueprint('admin', __name__, url_prefix='/admin')
 
+
 @bp.route('/users')
 def users():
     """ Table of users with button to open form for individual."""

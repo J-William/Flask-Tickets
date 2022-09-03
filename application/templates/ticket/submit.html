@@ -1,24 +1,15 @@
 {% extends 'base.html' %}
-{% import "bootstrap/wtf.html" as wtf %}
-
-
-
+{% from 'bootstrap4/form.html' import render_form %}
 
 {% block content %}
-
 <div class="container">
   <div class="row">
     <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
       <h1 class="pt-5 pb-2">Submit a ticket.</h1>
-
       <p class="lead">Someone will contact you at some point in the future, possibly.</p>
-    
-      {{ wtf.quick_form(form) }}
-
+        {{ render_form(form) }}
       <p class="pt-5"><strong>{{ message if message }}</strong></p>
-
     </div>
   </div>
 </div>
-
 {% endblock %}

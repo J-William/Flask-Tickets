@@ -18,6 +18,7 @@ CREATE TABLE ticket (
     created_at timestamp,
     started_at timestamp,
     finished_at timestamp,
+    notes 
     CONSTRAINT assigned_to_fk 
         FOREIGN KEY (assigned_to)
         REFERENCES app_user (user_id)

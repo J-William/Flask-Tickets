@@ -1,6 +1,7 @@
 import os
 from flask import Flask
-from flask_bootstrap import Bootstrap
+from flask_bootstrap import Bootstrap4
+
 
 
 
@@ -30,7 +31,7 @@ def create_app(test_config=None):
     from . import db
     db.init_app(app)
 
-    Bootstrap(app)
+    Bootstrap4(app)
 
     # Authorization blueprint
     from . import auth

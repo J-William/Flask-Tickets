@@ -1,13 +1,9 @@
 {% extends 'base.html' %}
-{% import "bootstrap/wtf.html" as wtf %}
-
-
 
 
 {% block content %}
-<p class="pt-5"><strong>{{ message if message }}</strong></p>
-
-<form method="post">
+<form method="post" action="/ticket/{{form.ticket_id.data}}">
+    {{ form.csrf_token }}
     <div class="row p-3 ml-5 mr-auto">
     <div class="col-sm-6">
         <div class="mb-3">
@@ -20,7 +16,7 @@
         </div>
         <div class="mb-3">
             <label for="description" class="form-label">{{ form.description.label }}</label>
-            <textarea class="form-control" id="description" name="description" value="{{ form.description.data }}" readonly></textarea>
+            <textarea class="form-control" id="description" name="description" readonly>{{ form.description.data }}</textarea>
         </div>
         <div class="mb-3">
             <label for="submitted_by" class="form-label">{{ form.submitted_by.label }}</label>
@@ -42,12 +38,12 @@
     <div class="col-sm-6">
         <div class="mb-3">
             <label for="notes" class="form-label">{{ form.notes.label }}</label>
-            <textarea class="form-control" id="notes" name="notes" rows="15" value="{{ form.notes.data }}"></textarea>
+            <textarea class="form-control" id="notes" name="notes" rows="15">{{ form.notes.data }}</textarea>
         </div>
         <div class="mb-3">
                 <button type="submit" class="btn btn-primary w-25">Update</button>
-                <button type="submit" class="btn btn-primary w-25">Start</button>
-                <button type="submit" class="btn btn-primary w-25">Close</button>
+                <button type="button"  class="btn btn-primary w-25" onclick="window.location.href='{{url_for('index.index')}}';">Click me!</button>
+                <p class="pt-5"><strong>{{ message if message }}</strong></p>
         </div>
     </div>
     </div>

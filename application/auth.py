@@ -36,7 +36,7 @@ def login():
             session['user_id'] = user['USER_ID']
             return redirect(url_for('index.index'))
         
-        flash(error)
+        flash(error, 'error')
 
     return render_template('auth/login.html')
 
@@ -46,7 +46,7 @@ def login():
 def logout():
     """ Logout a user."""
     session.clear()
-    flash('Logged out')
+    flash('Logged out', 'info')
     return redirect(url_for('auth.login'))
 
 @bp.before_app_request
