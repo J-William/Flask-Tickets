@@ -1,2 +1,3 @@
 # Flask-Tickets
-Ticket tracking system with Flask and Oracle XE Database.
+WIP
+A ticket tracking system made with Flask, Bootstrap 4, and Oracle Database 21c XE.
