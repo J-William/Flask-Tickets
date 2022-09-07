@@ -1,7 +1,8 @@
+from datetime import timedelta
 import oracledb
 import os
 import click
-from flask import g
+from flask import g, session
 from flask.cli import with_appcontext
 
 
@@ -14,7 +15,6 @@ class Dbcm(object):
 
     def __init__(self) -> None:
         self.pool = oracledb.create_pool( 
-            
             user= os.environ.get('DATABASE_USER'),
             password= os.environ.get('DATABASE_PASSWORD'),
             dsn= os.environ.get('DATABASE_DSN'),
@@ -99,7 +99,7 @@ def init_db():
 
     cur.execute(
         'INSERT INTO app_user ( username, password, role ) VALUES (:1, :2, :3)',
-        ['admin', generate_password_hash('admin'), 'ADMIN']
+        [ 'admin', generate_password_hash('admin'), 'ADMIN' ]
     )
 
     conn.commit()
@@ -108,7 +108,7 @@ def init_db():
     DBCM.shutdown()
 
 def load_sample_data():
-    # from application import DBCM
+    """ Load some sample data for the applicaton."""
     conn = DBCM.get_conn()
     cur = conn.cursor()
 
@@ -136,15 +136,18 @@ def init_db_command():
 @click.command('load-sample-data')
 @with_appcontext
 def load_sample_data_command():
+    """ Load sample data """
     load_sample_data()
     click.echo('Loaded sample data.')
 
 def init_app(app):
-    # from application import DBCM
     # Tells Flask to call this function when ending a response
     app.teardown_appcontext(DBCM.close_conn)
     # Adds a new command that can be called with the flask command
     app.cli.add_command(init_db_command)
     app.cli.add_command(load_sample_data_command)
 
-
+    @app.before_first_request    
+    def make_session_permanent():
+        session.permanent = True
+        app.permanent_session_lifetime = timedelta(minutes=1)

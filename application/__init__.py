@@ -43,6 +43,8 @@ def create_app(test_config=None):
     from . import ticket
     app.register_blueprint(ticket.bp)
     
-    
+
+
+
     return app
         

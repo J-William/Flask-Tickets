@@ -17,10 +17,10 @@ def login():
         username = request.form['username']
         password = request.form['password']
         
-
-        query = 'SELECT * FROM app_user WHERE username = :1'
-        params = [username]
-        cursor = DBCM.get_result(query, params)
+        cursor = DBCM.get_result(
+            'SELECT * FROM app_user WHERE username = :1',
+            [ username ]            
+            )
         error = None
         user = cursor.fetchone()
         cursor.close()
@@ -67,6 +67,7 @@ def load_logged_in_user():
         cursor.close()
 
 
+
 def login_required(view):
     """ Decorator that requires login for views that it wraps."""
     @functools.wraps(view)
@@ -82,8 +83,9 @@ def tech_required(view):
     """ Decorator that requires tech or admin user for views that it wraps."""
     @functools.wraps(view)
     def wrapped_view(**kwargs):
-        if g.user['ROLE'] not in ['TECH', 'ADMIN']:
+        if not g.user or g.user['ROLE'] not in ['TECH', 'ADMIN']:
             return redirect(url_for('auth.login'))
+            
         return view(**kwargs)
     return wrapped_view
     
@@ -91,7 +93,7 @@ def admin_required(view):
     """ Decorator that requires admin users for views that it wraps."""
     @functools.wraps(view)
     def wrapped_view(**kwargs):
-        if g.user['ROLE'] != 'ADMIN':
+        if not g.user or g.user['ROLE'] != 'ADMIN':
             return redirect(url_for('auth.login'))
 
         return view(**kwargs)

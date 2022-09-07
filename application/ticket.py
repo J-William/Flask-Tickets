@@ -9,7 +9,8 @@ from application.forms import TicketSubmissionForm, TicketForm
 bp = Blueprint('ticket', __name__, url_prefix='/ticket')
 
 @bp.route('/<int:ticket_id>', methods=('GET', 'POST'))
-def get_tickets(ticket_id):
+def view_ticket(ticket_id):
+
     form = TicketForm()
     message = None
     if form.validate_on_submit():
@@ -21,7 +22,7 @@ def get_tickets(ticket_id):
             SET notes = :1
             WHERE ticket_id = :2
             """,
-            [form.notes.data, ticket_id]
+            [ form.notes.data, form.ticket_id.data ]
         )
         conn.commit()
         cur.close()
@@ -34,7 +35,7 @@ def get_tickets(ticket_id):
                     (SELECT username FROM app_user WHERE user_id = submitted_by) submitted_by
                 FROM ticket WHERE ticket_id = :1
             """,
-            [ticket_id]
+            [ ticket_id ]
             ).fetchone()
 
         form.ticket_id.data = ticket_id
@@ -52,12 +53,10 @@ def get_tickets(ticket_id):
 @bp.route('/submit', methods=('GET', 'POST'))
 @login_required
 def submit_ticket():
+    """ Ticket creation view """
     form = TicketSubmissionForm()
-    message = None
+    
     if form.validate_on_submit():
-        subject = form.subject.data
-        description = form.description.data
-
         conn = DBCM.get_conn()
         cur = conn.cursor()
         cur.execute(
@@ -65,19 +64,28 @@ def submit_ticket():
             INSERT INTO ticket ( subject, submitted_by, description, created_at)
             VALUES (:1, :2, :3, systimestamp)
             """,
-            [subject, g.user['USER_ID'], description]
+            [ form.subject.data, g.user['USER_ID'], form.description.data ]
         )
         conn.commit()
         cur.close()
-        message = "Thanks for your ticket we're on it."
-    return render_template('ticket/submit.html', form=form, message=message)
+        flash("Thanks for your ticket we're on it.", 'success')
+        return render_template('base.html')
+        
+    return render_template('ticket/submit.html', form=form)
 
 
 @bp.route('/dashboard')
 @tech_required
 def ticket_dashboard():
     """ Return the dashboard view."""
-    res = DBCM.get_result("SELECT * FROM ticket").fetchmany()
+    res = DBCM.get_result(
+        """
+            SELECT ticket_id, subject, description, created_at, started_at, finished_at, notes,
+                        (SELECT username FROM app_user WHERE user_id = assigned_to) assigned_to,
+                        (SELECT username FROM app_user WHERE user_id = submitted_by) submitted_by
+            FROM ticket
+        """
+    ).fetchmany()
     return render_template('ticket/dashboard.html', data = res)
 
     

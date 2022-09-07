@@ -14,11 +14,12 @@ CREATE TABLE ticket (
     ticket_id number GENERATED ALWAYS AS IDENTITY (START WITH 100 INCREMENT BY 1 NOCYCLE NOCACHE),
     assigned_to number,
     submitted_by varchar2(2000),
-    description varchar2(4000),
+    subject varchar2(4000),
+    description clob,
     created_at timestamp,
     started_at timestamp,
     finished_at timestamp,
-    notes 
+    notes clob,
     CONSTRAINT assigned_to_fk 
         FOREIGN KEY (assigned_to)
         REFERENCES app_user (user_id)
