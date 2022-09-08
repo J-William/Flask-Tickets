@@ -3,7 +3,7 @@ from wtforms import StringField, TextAreaField, SubmitField, DateTimeField
 from wtforms.validators import DataRequired
 
 class TicketSubmissionForm(FlaskForm):
-    """ The ticket form"""
+    """ The ticket submission form."""
     subject = StringField(
         'Subject',
         [DataRequired()]
@@ -15,6 +15,7 @@ class TicketSubmissionForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class TicketForm(FlaskForm):
+    """ The full ticket form."""
     ticket_id = StringField(
         'ID'
     )

@@ -42,9 +42,9 @@
         </div>
         <div class="row mb-3">
             <button type="submit" class="btn btn-primary w-25" style="border-radius: 0px;">Update</button>
-                <button type="button"  class="btn btn-primary w-25 app-btn-group " onclick="window.location.href='{{url_for('ticket.ticket_dashboard')}}';">Start</button>
-                <button type="button"  class="btn btn-primary w-25 app-btn-group" onclick="window.location.href='{{url_for('ticket.ticket_dashboard')}}';">Finish</button>
-                <button type="button"  class="btn btn-primary w-25 app-btn-group" onclick="window.location.href='{{url_for('ticket.ticket_dashboard')}}';">Back</button>
+            <button type="button"  class="btn btn-primary w-25 app-btn-group" onclick="start_ticket('{{ form.ticket_id.data }}')">Start</button>
+            <button type="button"  class="btn btn-primary w-25 app-btn-group" onclick="finish_ticket('{{ form.ticket_id.data }}')">Finish</button>
+            <button type="button"  class="btn btn-primary w-25 app-btn-group" onclick="window.location.href='{{url_for('ticket.ticket_dashboard')}}';">Back</button>
         </div>
     </div>
     </div>

@@ -11,7 +11,6 @@ bp = Blueprint('admin', __name__, url_prefix='/admin')
 @bp.route('/users')
 def users():
     """ Table of users with button to open form for individual."""
-    
     users = DBCM.get_result(
         'SELECT user_id, username, role FROM app_user ORDER BY user_id'
     ).fetchall()
@@ -21,7 +20,7 @@ def users():
 
 @bp.route('/user/<int:user_id>', methods=('GET', 'POST'))
 @admin_required
-def get_user(user_id):
+def edit_user(user_id):
     """ The form to view/edit a given user."""    
     if request.method == 'POST':
         username = request.form['username']
@@ -48,7 +47,7 @@ def get_user(user_id):
 @bp.route('/user/create', methods=('GET', 'POST'))
 @admin_required
 def create_user():
-    """ TODO Form to create a new user."""
+    """ Form to create a new user."""
     if request.method == 'POST':
         user = {}
         user['USERNAME'] = request.form['username']
