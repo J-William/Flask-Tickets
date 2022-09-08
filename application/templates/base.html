@@ -12,6 +12,9 @@
     {% block styles %}
         <!-- Bootstrap CSS -->
         {{ bootstrap.load_css() }}
+        
+        <!-- Custom CSS-->
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
     {% endblock %}
 
     <title>Help Desk</title>
@@ -63,6 +66,8 @@
     {% block scripts %}
     <!-- Optional JavaScript -->
     {{ bootstrap.load_js() }}
+    <!-- Custom JavaScript-->
+    <script src="{{ url_for('static', filename='script.js') }}">
     {% endblock %}
 </body>
 

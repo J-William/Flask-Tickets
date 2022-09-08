@@ -10,3 +10,7 @@ bp = Blueprint('index', __name__)
 def index():
     flash('Welcome!')
     return render_template('base.html')
+
+@bp.route('/favicon.ico')
+def favicon():
+    return redirect(url_for('static', filename='favicon.ico'))

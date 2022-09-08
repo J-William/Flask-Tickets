@@ -150,4 +150,4 @@ def init_app(app):
     @app.before_first_request    
     def make_session_permanent():
         session.permanent = True
-        app.permanent_session_lifetime = timedelta(minutes=1)
+        app.permanent_session_lifetime = timedelta(minutes=10)
