@@ -1,12 +1,11 @@
 
-
 CREATE TABLE app_user (
     user_id number GENERATED ALWAYS AS IDENTITY (START WITH 10 INCREMENT BY 10 NOCYCLE NOCACHE) PRIMARY KEY,
     username varchar2(1000),
     password varchar2(4000),
     role varchar2(500),
     CONSTRAINT app_user_role_chk
-        CHECK CONSTRAINT (role IN ('USER', 'ADMIN', 'TECH'))
+        CHECK (role IN ('USER', 'ADMIN', 'TECH'))
 );
 
 

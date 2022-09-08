@@ -91,7 +91,7 @@ def init_db():
     # from application import DBCM
     conn = DBCM.get_conn()
     cur = conn.cursor()
-    commands = parse_script('dm/schema.sql')
+    commands = parse_script('application/dm/schema.sql')
 
     for command in commands:
         if command:
