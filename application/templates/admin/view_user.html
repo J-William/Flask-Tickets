@@ -3,7 +3,7 @@
 
 {% block content %}
   <div class="col-sm-4 pt-2">
-    <form method="post" action="/admin/user/{{user['USER_ID']}}">
+    <form method="post" action={{ url_for('admin.edit_user', user_id=user['USER_ID'])}}>
       <div class="mb-3">
           <label for="user_id" class="form-label">User ID:</label>
           <input type="text" class="form-control" id="user_id" name="user_id" {% if user %} value="{{user['USER_ID']}}" readonly {% endif %}>
@@ -19,11 +19,15 @@
       <div class="mb-3">
         <label for="role" class="form-label">Role:</label>
         <select class="form-control" id="role" name="role">
+          {% if user.ROLE == 'ADMIN' %} <option selected> {% else %} <option> {% endif %} ADMIN</option>
           {% if user.ROLE == 'USER' %} <option selected> {% else %} <option> {% endif %} USER</option>
           {% if user.ROLE == 'TECH' %} <option selected> {% else %} <option> {% endif %} TECH</option>
         </select>
       </div>
-      <button type="submit" class="btn btn-primary">Update</button>
+      <div class="mb-3">
+        <button type="submit" class="btn btn-primary" style="width: 100px;">Update</button>
+        <button type="button"  class="btn btn-primary" style="width: 100px;" onclick="window.location.href='{{url_for('admin.users')}}';">Back</button>
+      </div>
     </form>
     </div>
   <div class="col-sm-8"></div>

@@ -14,6 +14,7 @@ class TicketSubmissionForm(FlaskForm):
     )
     submit = SubmitField('Submit')
 
+
 class TicketForm(FlaskForm):
     """ The full ticket form."""
     ticket_id = StringField(
@@ -45,4 +46,4 @@ class TicketForm(FlaskForm):
         'Notes'
     )
     submit = SubmitField('Update')
-    start = SubmitField('Start')
+    

@@ -9,9 +9,6 @@ from application.db import DBCM
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 
-
-
-
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     """ Login """
@@ -43,13 +40,13 @@ def login():
     return render_template('auth/login.html')
 
 
-
 @bp.route('/logout')
 def logout():
     """ Logout a user."""
     session.clear()
     flash('Logged out', 'info')
     return redirect(url_for('auth.login'))
+
 
 @bp.before_app_request
 def load_logged_in_user():
@@ -69,7 +66,6 @@ def load_logged_in_user():
         cursor.close()
 
 
-
 def login_required(view):
     """ Decorator that requires login for views that it wraps."""
     @functools.wraps(view)
@@ -81,6 +77,7 @@ def login_required(view):
         return view(**kwargs)
     return wrapped_view
 
+
 def tech_required(view):
     """ Decorator that requires tech or admin user for views that it wraps."""
     @functools.wraps(view)
@@ -90,6 +87,7 @@ def tech_required(view):
 
         return view(**kwargs)
     return wrapped_view
+    
     
 def admin_required(view):
     """ Decorator that requires admin users for views that it wraps."""

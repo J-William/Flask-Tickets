@@ -108,7 +108,8 @@ def start_ticket(ticket_id):
     cur.execute(
         """ 
             UPDATE ticket
-            SET started_at = systimestamp, assigned_to = :1
+            SET started_at = nvl(started_at, systimestamp), 
+                assigned_to = nvl(assigned_to, :1)
             WHERE ticket_id = :2
             RETURNING started_at INTO :3
         """,
@@ -131,7 +132,7 @@ def finish_ticket(ticket_id):
     cur.execute(
         """ 
             UPDATE ticket
-            SET finished_at = systimestamp
+            SET finished_at = nvl(finished_at, systimestamp)
             WHERE ticket_id = :1
             RETURNING finished_at INTO :2        
         """,
@@ -140,6 +141,5 @@ def finish_ticket(ticket_id):
     conn.commit()
     cur.close()
     stamp = stamp.getvalue()[0]
-    if str(stamp) is None:
-        raise Exception('fatal error')
+
     return str(stamp)

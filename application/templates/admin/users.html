@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="col-sm-8">
-    <span><a href="/admin/user/create">Create New User</a></span> 
+    <span><a href={{ url_for('admin.create_user')}}>Create New User</a></span> 
     <table class="table table-striped">
         <thead>
             <th scope="col">User ID</th>
@@ -17,7 +17,7 @@
                     <td>{{user['USER_ID']}}</td>
                     <td>{{user['USERNAME']}}</td>
                     <td>{{user['ROLE']}}</td>
-                    <td><a href="/admin/user/{{user['USER_ID']}}">Edit</a></td>
+                    <td><a href={{ url_for('admin.edit_user', user_id=user['USER_ID'] )}}>Edit</a></td>
                 </tr>
             {% endfor %}
         </tbody>
