@@ -1,4 +1,3 @@
-
 CREATE TABLE app_user (
     user_id number GENERATED ALWAYS AS IDENTITY (START WITH 10 INCREMENT BY 10 NOCYCLE NOCACHE) PRIMARY KEY,
     username varchar2(1000),
@@ -7,7 +6,6 @@ CREATE TABLE app_user (
     CONSTRAINT app_user_role_chk
         CHECK (role IN ('USER', 'ADMIN', 'TECH'))
 );
-
 
 CREATE TABLE ticket (
     ticket_id number GENERATED ALWAYS AS IDENTITY (START WITH 100 INCREMENT BY 1 NOCYCLE NOCACHE),

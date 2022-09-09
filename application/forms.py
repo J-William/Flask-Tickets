@@ -14,6 +14,7 @@ class TicketSubmissionForm(FlaskForm):
     )
     submit = SubmitField('Submit')
 
+
 class TicketForm(FlaskForm):
     """ The full ticket form."""
     ticket_id = StringField(

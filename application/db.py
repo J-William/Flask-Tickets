@@ -23,7 +23,6 @@ class Dbcm(object):
             increment=1
             )
 
-
     def get_conn(self):
         """ Return the active db connection create one if there isn't one active. """
         if 'db' not in g:
@@ -65,20 +64,20 @@ class Dbcm(object):
         return cur
 
 
-
-
 # # Global instance of the DBCM
 DBCM = Dbcm()   
-
 
 
 ########################### Initialization ####################################
 
 def parse_script(filepath):
     """ Parse a sql script into a list of commands."""
-    f = open(filepath)
-    script = f.read()
-    f.close()
+    script = str()
+    with open(filepath) as f:
+        for line in f:
+            if not line.startswith('--'):
+                script += line
+    
     script = script.replace('\n', '')
     script = script.strip()
     return script.split(';')
@@ -107,13 +106,14 @@ def init_db():
     DBCM.close_conn()
     DBCM.shutdown()
 
+
 def load_sample_data():
     """ Load some sample data for the applicaton."""
     conn = DBCM.get_conn()
     cur = conn.cursor()
 
     from werkzeug.security import generate_password_hash
-    commands = parse_script('dm/sample.sql')
+    commands = parse_script('application/dm/sample.sql')
     
     for command in commands:
         if command:
@@ -133,12 +133,14 @@ def init_db_command():
     init_db()
     click.echo('Initialized the database.')
 
+
 @click.command('load-sample-data')
 @with_appcontext
 def load_sample_data_command():
     """ Load sample data """
     load_sample_data()
     click.echo('Loaded sample data.')
+
 
 def init_app(app):
     # Tells Flask to call this function when ending a response

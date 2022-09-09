@@ -44,6 +44,7 @@ def edit_user(user_id):
 
     return render_template('admin/view_user.html', user=user)
 
+
 @bp.route('/user/create', methods=('GET', 'POST'))
 @admin_required
 def create_user():

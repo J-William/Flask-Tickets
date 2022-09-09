@@ -24,7 +24,7 @@
                     <td>{{row['CREATED_AT']}}</td>
                     <td>{{row['STARTED_AT']}}</td>
                     <td>{{row['FINISHED_AT']}}</td>
-                    <td><a href="/ticket/{{row['TICKET_ID']}}">Edit</a></td>
+                    <td><a href={{ url_for('ticket.edit_ticket', ticket_id=row['TICKET_ID'])}}>Edit</a></td>
                 </tr>
             {% endfor %}
         </tbody>

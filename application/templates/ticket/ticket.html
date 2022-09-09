@@ -2,7 +2,7 @@
 
 
 {% block content %}
-<form method="post" action="/ticket/{{form.ticket_id.data}}">
+<form method="post" action={{ url_for('ticket.edit_ticket', ticket_id=form.ticket_id.data)}}>
     {{ form.csrf_token }}
     <div class="row p-3 ml-5 mr-auto">
     <div class="col-sm-6">
