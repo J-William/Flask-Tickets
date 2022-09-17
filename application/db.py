@@ -85,9 +85,9 @@ def parse_script(filepath):
 
 def init_db():
     """ First time initialization of the db."""
-    # Create the default admin
     from werkzeug.security import generate_password_hash
-    # from application import DBCM
+    
+    # Create the schema
     conn = DBCM.get_conn()
     cur = conn.cursor()
     commands = parse_script('application/dm/schema.sql')
@@ -96,6 +96,7 @@ def init_db():
         if command:
             cur.execute(command)
 
+    # Creat the admin account
     cur.execute(
         'INSERT INTO app_user ( username, password, role ) VALUES (:1, :2, :3)',
         [ 'admin', generate_password_hash('admin'), 'ADMIN' ]
@@ -112,7 +113,6 @@ def load_sample_data():
     conn = DBCM.get_conn()
     cur = conn.cursor()
 
-    from werkzeug.security import generate_password_hash
     commands = parse_script('application/dm/sample.sql')
     
     for command in commands:
@@ -137,18 +137,19 @@ def init_db_command():
 @click.command('load-sample-data')
 @with_appcontext
 def load_sample_data_command():
-    """ Load sample data """
     load_sample_data()
     click.echo('Loaded sample data.')
 
 
 def init_app(app):
+    """ Application initialization"""
     # Tells Flask to call this function when ending a response
     app.teardown_appcontext(DBCM.close_conn)
     # Adds a new command that can be called with the flask command
     app.cli.add_command(init_db_command)
     app.cli.add_command(load_sample_data_command)
 
+    # Set the session timeout
     @app.before_first_request    
     def make_session_permanent():
         session.permanent = True
